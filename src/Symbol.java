@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Symbol {
     SymbolType symbolType;
@@ -17,6 +18,11 @@ public class Symbol {
 
     public static List<Symbol> analyze(String string) {
         ArrayList<Symbol> symbols = new ArrayList<>();
+        Scanner scanner = new Scanner(string);
+        String validationResult = scanner.findInLine("\\[]0-9a-z");
+        if (validationResult != null) {
+            throw new RuntimeException("Invalid character: " + validationResult);
+        }
         int pos = 0;
         while (pos < string.length()) {
             char c = string.charAt(pos);
@@ -53,8 +59,7 @@ public class Symbol {
                             c = string.charAt(pos);
                         } while (c <= '9' && c >= '0');
                         symbols.add(new Symbol(SymbolType.NUMBER, sbNum.toString()));
-                    }
-                    else {
+                    } else {
                         if (c != ' ') {
                             throw new RuntimeException("Unexpected character: " + c);
                         }
