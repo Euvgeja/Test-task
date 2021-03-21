@@ -21,7 +21,7 @@ public class Symbol {
         Scanner scanner = new Scanner(string);
         String validationResult = scanner.findInLine("\\[]0-9a-z");
         if (validationResult != null) {
-            throw new RuntimeException("Invalid character: " + validationResult);
+            throw new RuntimeException("Неверный символ: " + validationResult);
         }
         int pos = 0;
         while (pos < string.length()) {
@@ -36,6 +36,7 @@ public class Symbol {
                     pos++;
                     continue;
                 default:
+
                     if (c <= 'z' && c >= 'a') {
                         StringBuilder sb = new StringBuilder();
                         do {
@@ -59,15 +60,9 @@ public class Symbol {
                             c = string.charAt(pos);
                         } while (c <= '9' && c >= '0');
                         symbols.add(new Symbol(SymbolType.NUMBER, sbNum.toString()));
-                    } else {
-                        if (c != ' ') {
-                            throw new RuntimeException("Unexpected character: " + c);
-                        }
-                        pos++;
                     }
             }
         }
-        symbols.add(new Symbol(SymbolType.EOF, ""));
         return symbols;
     }
 
